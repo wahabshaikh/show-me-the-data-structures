@@ -56,7 +56,7 @@ def huffman_encoding(data):
             char_freqs[char] = 1
         else:
             char_freqs[char] += 1
-
+    
     # Build a list of nodes
     list_of_nodes = [Node(char, freq) for char, freq in char_freqs.items()]
 
@@ -83,7 +83,10 @@ def huffman_encoding(data):
     
     def calculate_huffman_code(node, code=[]):
         if isinstance(node, Node):
-            huffman_codes[node.get_character()] = "".join(code)
+            if not code:
+                huffman_codes[node.get_character()] = node.get_character()
+            else:
+                huffman_codes[node.get_character()] = "".join(code)
             return
         
 
@@ -122,8 +125,10 @@ def huffman_decoding(data,tree):
             node = tree           
         if bit == '0':
             node = node.get_left_child()
+        elif bit == '1':
+            node = node.get_right_child()
         else:
-            node = node.get_right_child()          
+            return data
     else:
         decoded_data += node.get_character()
 
@@ -131,7 +136,7 @@ def huffman_decoding(data,tree):
 
 
 if __name__ == "__main__":
-    test_cases = ["The bird is the word", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ""]
+    test_cases = ["The bird is the word", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "AAA", ""]
 
     for i, test in enumerate(test_cases):
         print("\nTest Case: {}\n".format(i + 1))
@@ -189,6 +194,21 @@ if __name__ == "__main__":
 
 # Test Case: 3
 
+# The size of the data is: 52
+
+# The content of the data is: AAA
+
+# The size of the decoded data is: 52
+
+# The content of the encoded data is: AAA
+
+# The size of the decoded data is: 52
+
+# The content of the encoded data is: AAA
+
+
+# Test Case: 4
+
 # The size of the data is: 49
 
 # The content of the data is: 
@@ -199,4 +219,4 @@ if __name__ == "__main__":
 
 # The size of the decoded data is: 49
 
-# The content of the encoded data is: 
+# The content of the encoded data is:
